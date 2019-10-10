@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en"><![endif]-->
+<html class="no-js" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>PHP Namespaces Explained</title>
+    <meta name="description" content="Learn how to use the namespaces feature that was introduced in PHP version 5.3.">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="1JWXOYuQUYTZzC3FhK_CFp9_HuhRsDv7AeQtMvEUh4A">
+    <link rel="shortcut icon" href="https://cdn.daylerees.com/assets/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="PHP%20Namespaces%20Explained_files/app.css">
+    <link rel="canonical" href="http://daylerees.com/php-namespaces-explained/">
+    <meta name="referrer" content="origin">
+    
+    <meta property="og:site_name" content="Dayle Rees">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="PHP Namespaces Explained">
+    <meta property="og:description" content="Learn how to use the namespaces feature that was introduced in PHP version 5.3.">
+    <meta property="og:url" content="http://daylerees.com/php-namespaces-explained/">
+    <meta property="article:published_time" content="2015-08-02T17:17:05.255Z">
+    <meta property="article:modified_time" content="2016-06-11T19:44:37.076Z">
+    <meta property="article:tag" content="Development">
+    <meta property="article:tag" content="PHP">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="PHP Namespaces Explained">
+    <meta name="twitter:description" content="Learn how to use the namespaces feature that was introduced in PHP version 5.3.">
+    <meta name="twitter:url" content="http://daylerees.com/php-namespaces-explained/">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Dayle Rees">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="Development, PHP">
+    <meta name="twitter:site" content="@daylerees">
+    
+    <script async="" src="PHP%20Namespaces%20Explained_files/analytics.js"></script><script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Dayle Rees",
+        "logo": "http://daylerees.com/content/images/2015/08/logo.png"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Dayle Rees",
+        "image": "http://daylerees.com/content/images/2015/08/dayleround.png",
+        "url": "http://daylerees.com/author/dayle/",
+        "sameAs": []
+    },
+    "headline": "PHP Namespaces Explained",
+    "url": "https://daylerees.com/php-namespaces-explained/",
+    "datePublished": "2015-08-02T17:17:05.255Z",
+    "dateModified": "2016-06-11T19:44:37.076Z",
+    "keywords": "Development, PHP",
+    "description": "Learn how to use the namespaces feature that was introduced in PHP version 5.3."
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.8">
+    <link rel="alternate" type="application/rss+xml" title="Dayle Rees" href="https://daylerees.com/rss/">
+<script src="PHP%20Namespaces%20Explained_files/embed.js" data-timestamp="1543849922034"></script><link rel="prefetch" as="style" href="PHP%20Namespaces%20Explained_files/a_data/lounge.css"><link rel="prefetch" as="script" href="PHP%20Namespaces%20Explained_files/a_data/common.js"><link rel="prefetch" as="script" href="PHP%20Namespaces%20Explained_files/a_data/lounge_002.js"><link rel="prefetch" as="script" href="PHP%20Namespaces%20Explained_files/a_data/config.js"></head>
+<body class="post-template tag-development tag-php" cz-shortcut-listen="true">
+    <header class="header">
+        <div class="header-inner">
+            <a href="http://daylerees.com/" title="Dayle Rees" class="logo"><img src="PHP%20Namespaces%20Explained_files/logo2.png"></a>
+            <nav class="primary-navigation">
+    <ul>
+            <li class="nav-books" role="presentation"><a href="https://daylerees.com/books/">Books</a></li>
+            <li class="nav-projects" role="presentation"><a href="https://daylerees.com/projects/">Projects</a></li>
+    </ul>
+</nav>
+
+            <div class="books">
+                <a href="https://leanpub.com/codesmart" title="Laravel: Code Smart"><img src="PHP%20Namespaces%20Explained_files/codesmart.jpg"></a>
+            </div>
+        </div>
+    </header>
+    <main id="content" class="content scrollable" role="main">
+        <div class="content-inner">
+            
+
+
+    <article class="post post tag-development tag-php">
+
+        <header class="post-header">
+            <h1 class="post-title">PHP Namespaces Explained</h1>
+            <section class="post-meta">
+                <time class="post-date" datetime="2015-08-02">02 August 2015</time>  on <a href="https://daylerees.com/tag/development/">Development</a>, <a href="https://daylerees.com/tag/php/">PHP</a>
+            </section>
+        </header>
+
+        <section class="post-content">
+            <p>In PHP version 5.3 a new feature known as namespacing was
+ added to the language. Many modern languages already had this feature 
+for some time, but PHP was a little late to the scene. None the less, 
+every new feature has a purpose, let’s find out why PHP namespaces can 
+benefit our application.</p>
+
+<p>In PHP you can’t have two classes that share the same name. They have
+ to be unique. The issue with this restriction is that if you are using a
+ third party library which has a class named <code>User</code>, then you can’t create your own class also called <code>User</code>. This is a real shame, because that’s a pretty convenient class name right?</p>
+
+<p>PHP namespaces allow us to circumvent this issue, in fact we can have as many <code>User</code>
+ classes as we like. Not only that, but we can use namespaces to contain
+ our similar code into neat little packages, or even to show ownership.</p>
+
+<p>Let’s take a look at a normal class. Yes... I know you have used them before. Just trust me on this one okay?</p>
+
+<h2 id="globalnamespace">Global Namespace</h2>
+
+<p>Here’s a really simple class.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="com">// app/models/Eddard.php</span><span class="pln">
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Eddard</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+
+</span><span class="pun">}</span></code></pre>
+
+<p>There’s nothing special to it, if we want to use it then we can do this.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="com">// app/routes.php</span><span class="pln">
+
+$eddard </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Eddard</span><span class="pun">();</span></code></pre>
+
+<blockquote>
+  <p>Dayle, I know some PHP...</p>
+</blockquote>
+
+<p>Okay, okay sorry. Basically, we can think of this class as being in 
+the ‘global’ namespace. I don’t know if that’s the right term for it, 
+but it sounds quite fitting to me. It essentially means that the class 
+exists without a namespace. It’s just a normal class.</p>
+
+<h2 id="simplenamespacing">Simple Namespacing</h2>
+
+<p>Let’s create another class alongside the original, global Eddard.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="kwd">namespace</span><span class="pln"> </span><span class="typ">Stark</span><span class="pun">;</span><span class="pln">
+
+</span><span class="com">// app/models/another.php</span><span class="pln">
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Eddard</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+
+</span><span class="pun">}</span></code></pre>
+
+<p>Here we have another Eddard class, with one minor change. The addition of the <code>namespace</code> directive. The line <code>namespace Stark;</code> informs PHP that everything we do is relative to the <code>Stark</code> namespace. It also means that any classes created within this file will live inside the ‘Stark’ namespace.</p>
+
+<p>Now, when we try to use the ‘Stark’ class once again.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="com">// app/routes.php</span><span class="pln">
+
+$eddard </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Eddard</span><span class="pun">();</span></code></pre>
+
+<p>Once again, we get an instance of the first class we created in the 
+last section. Not the one within the ‘Stark’ namespace. Let’s try to 
+create an instance of the ‘Eddard’ within the ‘Stark’ namespace.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="com">// app/routes.php</span><span class="pln">
+
+$eddard </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Stark</span><span class="pln">\Eddard</span><span class="pun">();</span></code></pre>
+
+<p>We can instantiate a class within a namespace, by prefixing it with 
+the name of the namespace, and separating the two with a backward (<code>\</code>) slash. Now we have an instance of the ‘Eddard’ class within the ‘Stark’ namespace. Aren’t we magical?!</p>
+
+<p>You should know that namespaces can have as many levels of hierarchy as they need to. For example:</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="typ">This</span><span class="pln">\Namespace\And\Class\Combination\Is\Silly\But\Works</span></code></pre>
+
+<h2 id="thetheoryofrelativity">The Theory of Relativity</h2>
+
+<p>Remember how I told you that PHP always reacts <strong>relative</strong> to the current namespace. Well let’s take a look at this in action.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="kwd">namespace</span><span class="pln"> </span><span class="typ">Stark</span><span class="pun">;</span><span class="pln">
+
+</span><span class="com">// app/routes.php</span><span class="pln">
+
+$eddard </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Eddard</span><span class="pun">();</span></code></pre>
+
+<p>By adding the namespace directive to the instantiation example, we 
+have moved the execution of the PHP script into the ‘Stark’ namespace. 
+Now because we are inside the same namespace as the one we put ‘Eddard’ 
+into, this time we receive the namespaced ‘Eddard’ class. See how it’s 
+all relative?</p>
+
+<p>Now that we have changed namespace, we have created a little problem.
+ Can you guess what it is? How do we instantiate the original ‘Eddard’ 
+class? The one not in the namespace.</p>
+
+<p>Fortunately, PHP has a trick for referring to classes that are 
+located within the global namespace, we simply prefix them with a 
+backward (<code>\</code>) slash.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="com">// app/routes.php</span><span class="pln">
+
+$eddard </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> \Eddard</span><span class="pun">();</span></code></pre>
+
+<p>With the leading backward (<code>\</code>) slash, PHP knows that we are referring to the ‘Eddard’ in the global namespace, and instantiates that one.</p>
+
+<p>Use your imagine a little, like how Barney showed you. Imagine that we have another namespaced class called <code>Tully\Edmure</code>. Now we want to use this class from within the ‘Stark’ framework. How do we do that?</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="kwd">namespace</span><span class="pln"> </span><span class="typ">Stark</span><span class="pun">;</span><span class="pln">
+
+</span><span class="com">// app/routes.php</span><span class="pln">
+
+$edmure </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> \Tully\Edmure</span><span class="pun">();</span></code></pre>
+
+<p>Again, we need the prefixing backward slash to bring us back to the 
+global namespace, before instantiating a class from the ‘Tully’ 
+namespace.</p>
+
+<p>It could get tiring, referring to classes within other namespaces by 
+their full hierarchy each time. Luckily, there’s a nice little shortcut 
+we can <code>use</code>. Let’s see it in action.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="kwd">namespace</span><span class="pln"> </span><span class="typ">Stark</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">use</span><span class="pln"> </span><span class="typ">Tully</span><span class="pln">\Edmure</span><span class="pun">;</span><span class="pln">
+
+</span><span class="com">// app/routes.php</span><span class="pln">
+
+$edmure </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Edmure</span><span class="pun">();</span></code></pre>
+
+<p>Using the <code>use</code> statement, we can bring one class from 
+another namespace, into the current namespace. Allowing us to 
+instantiate it by name only. Now don’t ask me why it doesn’t need the 
+backward slash prefix, because I just don’t know. This is the only 
+exception that I know of. Sorry about that! You can prefix it with a 
+slash if you want to though, you just don’t need to.</p>
+
+<p>To make up for that horrible inconsistency, let me show you another 
+neat trick. We can give our imported classes little nicknames, like we 
+used to in the PHP playground. Let me show you.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="kwd">namespace</span><span class="pln"> </span><span class="typ">Stark</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">use</span><span class="pln"> </span><span class="typ">Tully</span><span class="pln">\Brynden </span><span class="kwd">as</span><span class="pln"> </span><span class="typ">Blackfish</span><span class="pun">;</span><span class="pln">
+
+</span><span class="com">// app/routes.php</span><span class="pln">
+
+$brynden </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Blackfish</span><span class="pun">();</span></code></pre>
+
+<p>By using the ‘as` keyword, we have given our ‘Tully/Brynden’ class 
+the ‘Blackfish’ nickname, allowing us to use the new nickname to 
+identify it within the current namespace. Neat trick right? It’s also 
+really handy if you need to use two similarly named classes within the 
+same namespace, for example:</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="kwd">namespace</span><span class="pln"> </span><span class="typ">Targaryen</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">use</span><span class="pln"> </span><span class="typ">Dothraki</span><span class="pln">\Daenerys </span><span class="kwd">as</span><span class="pln"> </span><span class="typ">Khaleesi</span><span class="pun">;</span><span class="pln">
+
+</span><span class="com">// app/routes.php</span><span class="pln">
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Daenerys</span><span class="pln">
+</span><span class="pun">{</span><span class="pln">
+
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="com">// Targaryen\Daenerys</span><span class="pln">
+$daenerys </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Daenerys</span><span class="pun">();</span><span class="pln">
+
+</span><span class="com">// Dothraki\Daenerys</span><span class="pln">
+$khaleesi </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Khaleesi</span><span class="pun">();</span></code></pre>
+
+<p>By giving the ‘Daenerys’ within the ‘Dothraki’ namespace a nickname 
+of ‘Khaleesi’, we are able to use two ‘Daenerys’ classes by name only. 
+Handy right? The game is all about avoiding conflicts, and grouping 
+things by purpose or faction.</p>
+
+<p>You can <code>use</code> as many classes as you need to.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="kwd">namespace</span><span class="pln"> </span><span class="typ">Targaryen</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">use</span><span class="pln"> </span><span class="typ">Dothraki</span><span class="pln">\Daenerys</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">use</span><span class="pln"> </span><span class="typ">Stark</span><span class="pln">\Eddard</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">use</span><span class="pln"> </span><span class="typ">Lannister</span><span class="pln">\Tyrion</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">use</span><span class="pln"> </span><span class="typ">Snow</span><span class="pln">\Jon </span><span class="kwd">as</span><span class="pln"> </span><span class="typ">Bastard</span><span class="pun">;</span></code></pre>
+
+<h2 id="structure">Structure</h2>
+
+<p>Namespaces aren’t just about avoiding conflicts, we can also use them
+ for organisation, and for ownership. Let me explain with another 
+example.</p>
+
+<p>Let’s say I want to create an open source library. I’d love for 
+others to use my code, it would be great! The trouble is, I don’t want 
+to cause any problematic class name conflicts for the person using my 
+code. That would be terribly inconvenient. Here’s how I can avoid 
+causing hassle for the wonderful, open source embracing, individual.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="typ">Dayle</span><span class="pln">\Blog\Content\Post
+</span><span class="typ">Dayle</span><span class="pln">\Blog\Content\Page
+</span><span class="typ">Dayle</span><span class="pln">\Blog\Tag</span></code></pre>
+
+<p>Here we have used my name, to show that I created the original code, 
+and to separate my code from that of the person using my library. Inside
+ the base namespace, I have created a number of sub-namespaces to 
+organise my application by its internal structure.</p>
+
+<p>In the composer section, you will learn how to use namespaces to 
+simplify the act of loading class definitions. I strongly suggest you 
+take a look at this useful mechanism.</p>
+
+<h2 id="limitations">Limitations</h2>
+
+<p>In truth, I feel a little guilty for calling this sub-heading ‘Limitations’. What I’m about to talk about isn’t really a bug.</p>
+
+<p>You see, in other languages, namespaces are implemented in a similar 
+way, and those other languages provide an additional feature when 
+interacting with namespaces.</p>
+
+<p>In Java for example, you are able to import a number of classes into 
+the current namespace by using the import statement with a wildcard. In 
+Java, ‘import’ is equivelent to ‘use’, and it uses dots to separate the 
+nested namespaces (or packages). Here’s an example.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="kwd">import</span><span class="pln"> dayle</span><span class="pun">.</span><span class="pln">blog</span><span class="pun">.*;</span></code></pre>
+
+<p>This would import all of the classes that are located within the ‘dayle.blog’ package.</p>
+
+<p>In PHP you can’t do that. You have to import each class individually.
+ Sorry. Actually, why am I saying sorry? Go and complain to the PHP 
+internals team instead, only, go gentle. They have given us a lot of 
+cool stuff recently.</p>
+
+<p>Here’s a neat trick you can use however. Imagine that we have this namespace and class structure, as in the previous example.</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="typ">Dayle</span><span class="pln">\Blog\Content\Post
+</span><span class="typ">Dayle</span><span class="pln">\Blog\Content\Page
+</span><span class="typ">Dayle</span><span class="pln">\Blog\Tag</span></code></pre>
+
+<p>We can give a sub-namespace a nickname, to use it’s child classes. Here’s an example:</p>
+
+<pre class="prettyprint prettyprinted" style=""><code><span class="pun">&lt;?</span><span class="pln">php
+
+</span><span class="kwd">namespace</span><span class="pln"> </span><span class="typ">Baratheon</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">use</span><span class="pln"> </span><span class="typ">Dayle</span><span class="pln">\Blog </span><span class="kwd">as</span><span class="pln"> </span><span class="typ">Cms</span><span class="pun">;</span><span class="pln">
+
+</span><span class="com">// app/routes.php</span><span class="pln">
+
+$post </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Cms</span><span class="pln">\Content\Post</span><span class="pun">;</span><span class="pln">
+$page </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Cms</span><span class="pln">\Content\Page</span><span class="pun">;</span><span class="pln">
+$tag  </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Cms</span><span class="pln">\Tag</span><span class="pun">;</span></code></pre>
+
+<p>This should prove useful if you need to use many classes within the same namespace. Enjoy!</p>
+
+<div class="book-info">  
+    <div class="cover">
+        <a href="https://leanpub.com/php-pandas"><img src="PHP%20Namespaces%20Explained_files/phppandas.jpg"></a>
+    </div>
+    <div class="description">
+        <p>Are you enjoying my writing? If you'd like to learn more about PHP then please consider <a href="https://leanpub.com/php-pandas">buying a digital copy of PHP Pandas over at Leanpub.com</a>.</p>
+
+        <p>It's available in <strong>PDF</strong>, <strong>ePub</strong>, and <strong>Kindle</strong>
+ format, and contains a bunch of extras that you won't find on the site.
+ I have a full-time job, and I write my books in my spare time. Please 
+consider <a href="https://leanpub.com/php-pandas">buying a copy</a> so that I can continue to write new books from the comfort of my sofa!</p>
+    </div>
+</div>
+        </section>
+
+        <section class="share">
+            <p class="share-on">Share on:</p>
+            <ul>
+                <li><a class="twitter" target="_blank" href="https://twitter.com/home?status=PHP%20Namespaces%20Explained+https://daylerees.com/php-namespaces-explained/+via+@daylerees">Twitter</a></li>
+                <li><a class="facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://daylerees.com/php-namespaces-explained/">Facebook</a></li>
+                <li><a class="google" target="_blank" href="https://plus.google.com/share?url=https://daylerees.com/php-namespaces-explained/">Google</a></li>
+            </ul>
+        </section>
+
+        <section class="comments">
+		<div id="disqus_thread"><iframe id="dsq-app9465" name="dsq-app9465" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 1px !important; min-width: 100% !important; border: medium none !important; overflow: hidden !important; height: 6146px !important;" src="PHP%20Namespaces%20Explained_files/a.htm" horizontalscrolling="no" verticalscrolling="no" width="100%" frameborder="0"></iframe><iframe id="indicator-north" name="indicator-north" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 720px !important; border: medium none !important; overflow: hidden !important; top: 0px !important; min-width: 720px !important; max-width: 720px !important; position: fixed !important; z-index: 2147483646 !important; height: 18px !important; min-height: 18px !important; max-height: 18px !important; display: none !important;" frameborder="0"></iframe><iframe id="indicator-south" name="indicator-south" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 720px !important; border: medium none !important; overflow: hidden !important; bottom: 0px !important; min-width: 720px !important; max-width: 720px !important; position: fixed !important; z-index: 2147483646 !important; height: 18px !important; min-height: 18px !important; max-height: 18px !important; display: none !important;" frameborder="0"></iframe></div>
+<script>
+    var disqus_config = function () {
+        this.page.url = 'https://daylerees.com/php-namespaces-explained/';
+        this.page.identifier = '/php-namespaces-explained/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//daylerees.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments.</a></noscript>
+        </section>
+    </article>
+
+
+            <footer class="site-footer">Copyright © 2018 Dayle Rees</footer>
+        </div>
+    </main>
+
+    <!-- You can safely delete this line if your theme does not require jQuery -->
+<script type="text/javascript" src="PHP%20Namespaces%20Explained_files/jquery-1.js"></script>
+    <script src="PHP%20Namespaces%20Explained_files/app.js"></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-66362998-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+
+<iframe style="display: none;"></iframe></body></html>

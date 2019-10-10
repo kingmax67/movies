@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="description" content="Autoloading makes Object Oriented Programming easy. Classes and classes inside namespaces can automatically be loaded with PHP using it's own in-built functions. This tutorial teaches you how to manage a good file structure and register a powerful autoload function with plenty of examples.">
+<meta name="keywords" content="php autoload, autoloading, autoloading classes, autoloading namespaces, php, autoload, php obejcts, autoload files, php call autoload, include files">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
+<meta property="og:title" content="Autoloading Classes/Namespaces">
+<meta property="og:description" content="Autoloading makes Object Oriented Programming easy. Classes and classes inside namespaces can automatically be loaded with PHP using it's own in-built functions. This tutorial teaches you how to manage a good file structure and register a powerful autoload function with plenty of examples.">
+<meta property="og:image" content="https://cdn.hyvor.com/uploads/developer/autoloading-new.png">
+<meta property="og:site_name" content="Hyvor Developer">
+<meta property="og:url" content="https://developer.hyvor.com/php/autoload-classes-namespaces">
+<meta property="og:type" content="blog">
+<meta name="twitter:title" content="Autoloading Classes/Namespaces">
+<meta name="twitter:description" content="Autoloading makes Object Oriented Programming easy. Classes and classes inside namespaces can automatically be loaded with PHP using it's own in-built functions. This tutorial teaches you how to manage a good file structure and register a powerful autoload function with plenty of examples.">
+<meta name="twitter:image" content="https://cdn.hyvor.com/uploads/developer/autoloading-new.png">
+<meta name="twitter:url" content="https://developer.hyvor.com/php/autoload-classes-namespaces">
+<meta name="twitter:site" content="@HyvorDeveloper">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="Autoloading%20Classes_Namespaces_files/autoload-classes-namespaces.htm">
+<title>Autoloading Classes/Namespaces</title>
+<link rel="stylesheet" href="Autoloading%20Classes_Namespaces_files/blog.css" type="text/css"><script type="text/javascript" async="" src="Autoloading%20Classes_Namespaces_files/analytics.js"></script><script src="Autoloading%20Classes_Namespaces_files/browserfp.js"></script><script src="Autoloading%20Classes_Namespaces_files/browserfp.js"></script><script src="Autoloading%20Classes_Namespaces_files/browserfp.js"></script><script type="text/javascript" src="Autoloading%20Classes_Namespaces_files/hyvorin.js"></script>
+
+<script async="" src="Autoloading%20Classes_Namespaces_files/js"></script>
+<script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'UA-112414285-1');
+            </script>
+<script type="application/ld+json">
+            {
+              "@context" : "http://schema.org",
+              "@type" : "Article",
+              "headline" : "Autoloading Classes/Namespaces",
+              "author" : {
+                "@type" : "Person",
+                "name" : "SupunKavinda"
+              },
+              "datePublished" : "2017-12-13",
+              "dateModified": "2017-12-13",
+              "image" : "https://cdn.hyvor.com/uploads/developer/autoloading-new.png",
+              "articleSection" : "PHP",
+              "url" : "https://developer.hyvor.com/php/autoload-classes-namespaces",
+              "publisher" : {
+                "@type" : "Organization",
+                "name" : "Hyvor Developer",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "<br />
+<b>Warning</b>:  Use of undefined constant LOGO_MEDIUM - assumed 'LOGO_MEDIUM' (this will throw an Error in a future version of PHP) in <b>/home/u664830366/public_html/developer/inc/head.php</b> on line <b>93</b><br />
+LOGO_MEDIUM"
+                }
+              }
+            }
+        </script>
+
+<script>
+          var loadDeferredStyles = function() {
+            var addStylesNode = document.getElementById("deferred-styles");
+            var replacement = document.createElement("div");
+            replacement.innerHTML = addStylesNode.textContent;
+            document.body.appendChild(replacement)
+            addStylesNode.parentElement.removeChild(addStylesNode);
+          };
+          var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+              window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+          if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+          else window.addEventListener('load', loadDeferredStyles);
+        </script>
+<script type="text/javascript">
+            window._mNHandle = window._mNHandle || {};
+            window._mNHandle.queue = window._mNHandle.queue || [];
+            medianet_versionId = "3121199";
+                    </script>
+<script src="Autoloading%20Classes_Namespaces_files/dmedianet.js" async="async"></script>
+<script src="Autoloading%20Classes_Namespaces_files/embed.js" data-timestamp="1543851913417"></script><link rel="prefetch" as="style" href="Autoloading%20Classes_Namespaces_files/a_data/lounge.css"><link rel="prefetch" as="script" href="Autoloading%20Classes_Namespaces_files/a_data/common.js"><link rel="prefetch" as="script" href="Autoloading%20Classes_Namespaces_files/a_data/lounge_002.js"><link rel="prefetch" as="script" href="Autoloading%20Classes_Namespaces_files/a_data/config.js"><script src="Autoloading%20Classes_Namespaces_files/alfalfa_min.js" async="" charset="UTF-8"></script></head>
+<body cz-shortcut-listen="true"><iframe marginwidth="0" marginheight="0" scrolling="no" id="_mN_cksync_0" style="display: none !important;" width="0" height="0" frameborder="0"></iframe>
+<div class="imagic-header" style="background-image:url('/images/header.jpg')">
+<div class="top-panel">
+<div id="mobile-button" onclick="openOrCloseMenu()">
+<div class="layer"></div>
+<div class="layer"></div>
+<div class="layer"></div>
+</div>
+<div class="left-buttons" id="left-menu">
+<a href="https://developer.hyvor.com/" class="item item-1" title="Home page">
+Home
+</a>
+<a href="https://developer.hyvor.com/tutorials?utm_source=top_panel&amp;utm_campaign=internal" class="item item-2" title="Tutorials Page">
+Tutorials
+</a>
+<a href="https://developer.hyvor.com/short-url?utm_source=top_panel&amp;utm_campaign=internal" class="item item-3" title="Hyvor URL Shortener">
+URL Shortener
+</a>
+<a href="https://www.patreon.com/hyvordeveloper" target="_blank" class="item item-4" title="Donate Hyvor on Patreon">
+Donate
+</a>
+</div>
+<div class="right-buttons">
+<div class="social">
+<a href="https://www.facebook.com/HyvorDeveloper/" target="_blank" title="Hyvor Developer Facebook Page">
+<i class="fa fa-facebook social-icon" style="background-color:#4267b2"></i>
+</a>
+<a href="https://twitter.com/HyvorDeveloper" target="_blank" title="Hyvor Developer Twitter Page">
+<i class="fa fa-twitter social-icon" style="background-color:#1da1f2"></i>
+</a>
+</div>
+</div>
+</div>
+<div class="title">
+<a href="https://developer.hyvor.com/" title="Homepage">
+<img src="Autoloading%20Classes_Namespaces_files/with-back-small.png" class="logo" alt="Hyvor Developer Logo">
+<span class="title-text">
+<span class="tx t-1">H</span><span class="tx t-2">y</span><span class="tx t-3">v</span><span class="tx t-4">o</span><span class="tx t-5">r</span> <span class="tx t-6">D</span><span class="tx t-7">e</span><span class="tx t-7">v</span><span class="tx t-8">e</span><span class="tx t-9">l</span><span class="tx t-10">o</span><span class="tx t-11">p</span><span class="tx t-12">e</span><span class="tx t-13">r</span>
+</span>
+</a>
+</div>
+</div>
+<div id="page-wrap" class="row">
+<div class="col-md-9">
+<div style="height:auto;" class="article-wrap">
+<div class="ad-wrap">
+<div id="484663556">
+<script type="text/javascript">
+                        try {
+                            window._mNHandle.queue.push(function () {
+                                window._mNDetails.loadTag("484663556", "728x90", "484663556");
+                            });
+                        }
+                        catch (error) {
+                        }
+                    </script>
+<iframe marginwidth="0" marginheight="0" scrolling="no" id="_mN_dy_484663556" width="728" height="90" frameborder="0"></iframe></div>
+</div>
+<h1>Autoloading Classes/Namespaces</h1>
+<p>Today we are going to discuss everything about classes and namespaces
+ autoloading in PHP. However, before you start you must have a basic 
+knowledge on PHP classes. If not, we prefer you to follow our tutorial 
+on Object Oriented Programming with PHP (Comming Soon)</p>
+At the end, you will learn
+<ul>
+<li><a href="#autoload-classes" class="link">Autoloading Classes</a></li>
+<li><a href="#organize" class="link">How To Organize Your Classes Like a PRO</a></li>
+<li><a href="#ns" class="link">Autoloading Namespaces</a></li>
+</ul>
+<h2 id="autoload-classes">What is Autoloading?</h2>
+<p>Most of the developers working with OOP(Object Oriented Programming) 
+tends to save each class definition in a separate file. In this case, 
+developers face a big problem. They have to include lots of files at the
+ beginning of the document. Let's consider the following example.</p>
+<p>Consider you are going to use several classes that are saved in separated files in your <strong>root directory</strong>.</p>
+<ul>
+<li>dog.php</li>
+<li>cat.php</li>
+<li>cow.php</li>
+<li>goat.php</li>
+<li>fox.php</li>
+</ul>
+<p>Then create <span class="inline-code">index.html</span> in your root directory and add following code</p>
+<pre class="code-wrap"><code class="code-php hljs">
+<span class="hljs-meta">&lt;?php</span>
+
+$dog = <span class="hljs-keyword">new</span> dog();
+
+</code>
+</pre>
+<div class="block red">Fatal Error: Class "dog" not found</div>
+<p>You'll get the above error because any programming language doesn't 
+find class files and include them by itself. So, you have to include all
+ the class files before you call the class. (Usually it's included at 
+the beginning of the document)</p>
+<p>But, when including files developers face below shown problem. If 
+they use 10 classes they have to include all the class files at the 
+beginning.</p>
+<pre class="code-wrap"><code class="code-php hljs">
+<span class="hljs-meta">&lt;?php</span>
+<span class="hljs-keyword">include</span>(<span class="hljs-string">'dog.php'</span>);
+<span class="hljs-keyword">include</span>(<span class="hljs-string">'cat.php'</span>);
+<span class="hljs-keyword">include</span>(<span class="hljs-string">'cow.php'</span>);
+<span class="hljs-keyword">include</span>(<span class="hljs-string">'goat.php'</span>);
+<span class="hljs-keyword">include</span>(<span class="hljs-string">'fox.php'</span>);
+
+</code>
+</pre>
+<p>When your project grows day-by-day it may need to include 100+ class 
+files in a document. How can a developer do that in lot of documents 
+without making a mistake? It's impossible! To solve this problem <strong>the autoload function</strong> comes!</p>
+<h4>Autoloading</h4>
+<p>Mainly there are two ways to define a autoload function.</p>
+<ol>
+<li><span class="inline-code">spl_autoload_register</span> function (Highly recommended)</li>
+<li><span class="inline-code">__autoload</span> function</li>
+</ol>
+<span class="inline-code">spl_autoload_register</span> is strongly recommended to use because of it's flexibility. The <span class="inline-code">__autoload</span> function is discouraged and will be deprecated soon. Let's see how to use it and how it works.
+<p>This will register autoload function and will try to load class files</p>
+<pre class="code-wrap"><code class="code-php hljs">
+<span class="hljs-meta">&lt;?php</span>
+
+spl_autoload_register(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($className)</span> </span>{
+	<span class="hljs-keyword">include_once</span> $className . <span class="hljs-string">'.php'</span>;
+});
+
+$dog = <span class="hljs-keyword">new</span> dog();
+$cat = <span class="hljs-keyword">new</span> cat();
+
+<span class="hljs-comment">// static_methods below</span>
+<span class="hljs-keyword">echo</span> cow::getToken();
+<span class="hljs-keyword">echo</span> fox::$name;
+
+</code>
+</pre>
+<h4>Step By Step...</h4>
+<ul>
+<li>First we define the autoload function with <span class="inline-code">spl_autoload_register</span> function.
+<ul style="list-style-type:disc">
+<li>When a new class called the callback function triggers.</li>
+<li>Then, PHP sends the class's name as a parameter or the function and we have used it as <span class="inline-code">$className</span></li>
+<li>Then, we can use following functions to include the class file
+<ol>
+<li>require</li>
+<li>require_once</li>
+<li>include</li>
+<li>include_once</li>
+</ol>
+</li>
+<li>All of those functions have their own pros and cons. The best one to use when autoloading is <span class="inline-code">include_once</span></li>
+<li>It won't stop the execution if an error occurs. Also, it won't 
+include the same file twice. Therefore it's used widely by developers to
+ include class files.</li>
+<li>Did you notice something unusual in the code? Nevermind! In PHP <span class="inline-code">include_once 'class.php'</span> is same as <span class="inline-code">include_once('class.php')</span>. Use anything you like.</li>
+<li>Finally we add the .php extension and include it.</li>
+</ul>
+</li>
+<li>Then when we call a class (like in the above example), the callback function is triggered. Then class file is included.</li>
+</ul>
+<p>Think about the time the code <span class="inline-code">new dog();</span> is executed. Then PHP calls the callback function. "dog" is sent as the parameter ($className). Then "dog.php" is included. </p>
+<h2 id="organize">How To Organize Your Classes Like a PRO</h2>
+<p>How does an experienced programmer organize their class files? They 
+use some simple tricks. Here is a simple and powerful file structure</p>
+<pre class="code-wrap"><code class="code-plain">
+/ 
+	ajax
+	inc
+	class 
+		class1.php
+		class2.php
+		class3.php
+	css
+	js 
+	images
+
+</code>
+</pre>
+<p>Simply, save all the class files in a folder in the root ("class" is recommended as the folder name).
+<br>Then create your powerful autoload function.
+</p>
+<pre class="code-wrap"><code class="code-php hljs">
+<span class="hljs-meta">&lt;?php</span>
+
+spl_autoload_register(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($className)</span> </span>{
+	<span class="hljs-keyword">include_once</span> $_SERVER[<span class="hljs-string">'DOCUMENT_ROOT'</span>] . <span class="hljs-string">'/class/'</span> . $className . <span class="hljs-string">'.php'</span>;
+});
+
+</code>
+</pre>
+<h4>Explained...</h4>
+<ul>
+<li>Here we create an autoload function as we discussed previously. (But this function has more advantages than the previous one)</li>
+<li><span class="inline-code">$_SERVER['DOCUMENT_ROOT']</span> (string) 
+holds the path of the root folder in the server computer. This variable 
+is set by the server when the page is requested. However, by using this 
+trick you can use class files with any document in any sub folder. </li>
+<li>As an example, think that you are using class1 in the file <span class="inline-code">/ajax/update.php</span>. When you trigger the class, the class name is added to the <span class="inline-code">$className</span> variable in the <span class="inline-code">spl_autoload_function</span>.
+ If we use previous function (mentioned in the first part of this 
+tutorial) it will include a file relative to the current folder, <span class="inline-code">/ajax/class/class1.php</span>. By using <span class="inline-code">$_SERVER['DOCUMENT_ROOT']</span> it will include something like <span class="inline-code">/web/www/public_html/class/class1.php</span> which is an absolute path.</li>
+</ul>
+<p>Now, you can use your classes anywhere in your website with PHP! 
+However, you have to use a different method when implementing an 
+autoload function in a subdomain. Check out <a href="https://developer.hyvor.com/php/including-files-in-root-with-subdomain" class="link">our tutorial</a> on it.</p>
+<div class="block"><strong>Important!</strong> You must save the class files with the name of the class. Otherwise this trick won't work.</div>
+<h2 id="ns">Autoloading Namespaces</h2>
+<p>Autoloading namespaces is an interesting topic. By the introduction 
+of namespaces in PHP 5.3 PHP developers could encapsulate their items 
+and it made handling scripts easy. However, we only discuss about how to
+ autoload namespaces here. If you need to learn more about namespaces 
+please visit our tutorial(Coming Soon) on it. Let's learn how to 
+autoload namespaces. First of all we have to learn the use of 
+namespaces.</p>
+<p>When a website becomes larger, it's harder to keep all the class 
+files in a same directory. Also we have to use very long names for files
+ and classes, such as <span class="inline-code">animal_dog_dog1_addName</span>. It is a really bad practice. Namespaces are introduced to prevent this problem. Let's see how it works!</p>
+<p>By using namespaces you can save your classes in sub folders. The file of the class <span class="inline-code">name</span> can be saved in <strong>/class/dog</strong> as well as <strong>/class/cat</strong>. Here is the file structure.</p>
+<pre><code class="code-plain">
+class
+	animals
+		dog.php
+		cat.php
+		goat.php
+	birds
+		owl.php
+		peacock.php
+	pets
+		dog.php
+		cat.php
+	mainClass1.php
+	mainClass2.php
+	mainClass3.php
+
+</code>
+</pre>
+<p>In above file structure you can understand, <strong>different files</strong> with the <strong>same name</strong>
+ can be saved in different locations (folders). Namespaces are based on 
+this simple logic. Now the problem is how to autoload them? Here is how 
+namespaces are called with PHP.</p>
+<pre class="code-wrap">	<code class="code-php hljs">
+<span class="hljs-meta">&lt;?php</span>
+
+spl_autoload_register(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($className)</span> </span>{
+	<span class="hljs-keyword">include_once</span> $_SERVER[<span class="hljs-string">'DOCUMENT_ROOT'</span>] . <span class="hljs-string">'/class/'</span> . $className . <span class="hljs-string">'.php'</span>;
+});
+
+$dog = <span class="hljs-keyword">new</span> animal\dog(); 
+$cat = <span class="hljs-keyword">new</span> animal\cat();
+
+
+<span class="hljs-comment">// static functions</span>
+animal\cat::name();
+animal\cat::appearance();
+
+</code>
+</pre>
+<h4>Step By Step...</h4>
+<ul>
+<li>First we defines the autoload function as we discussed earlier.</li>
+<li><span class="inline-code">"animal\dog"</span> will be as the $className parameter to the autoload function.</li>
+<li>So, it will include <span class="inline-code">/your_document_root/class/animal\dog.php</span>. (See the back slash)</li>
+<li>This autoloading function will work fine on Windows OS. But the "\" will cause errors in other operating systems.</li>
+<li>Therefore we have to upgrade our autoloading function.</li>
+</ul>
+<pre class="code-wrap" id="powerful">	<code class="code-php hljs">
+<span class="hljs-meta">&lt;?php</span>
+
+spl_autoload_register(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($className)</span> </span>{
+
+	$className = str_replace(<span class="hljs-string">"\\"</span>, DIRECTORY_SEPARATOR, $className);
+	<span class="hljs-keyword">include_once</span> $_SERVER[<span class="hljs-string">'DOCUMENT_ROOT'</span>] . <span class="hljs-string">'/class/'</span> . $className . <span class="hljs-string">'.php'</span>;
+
+});	
+
+</code>
+</pre>
+<h4>Explained...</h4>
+<ul>
+<li>We have added <span class="inline-code">str_replace</span> function here</li>
+<li>It matches "\" (back slash).</li>
+<li>Then replaces it with the value of DIRECTORY_SEPARATOR constant. (This is a <strong>PRE-DEFINED-CONSTANT</strong> which hold a string, the directory separator according to the operating system)</li>
+<li>This piece of code replaces <strong>\</strong> to <strong>/</strong> if necessary.</li>
+</ul>
+<h2>At The End</h2>
+Here are some tips.
+<ul>
+<li>Always name the class file with the name of the class.</li>
+<li>Use namespaces when necessary. (When the class files need to be stored in separate folders)</li>
+<li>Create a powerful autoload function as we discussed <a href="#powerful">above</a>, which supports normal classes as well as namespaces.</li>
+<li>It is a bad practice to add <span class="inline-code">spl_autoload_register</span> in all the php scripts. So, create a file called <span class="inline-code">autoload.php</span> and save it in the root directory (or in a directory you have include files).</li>
+<li>Then you just have to include <span class="inline-code">autoload.php</span> in a php script to register the autoload function. (<span class="inline-code">include_once $_SERVER['DOCUMENT_ROOT'] . '/autoload.php'</span>)</li>
+</ul>
+<p>If you have any questions comment below. We are always here to help you.</p>
+<p>Thanks.</p>
+<div class="ad-wrap">
+<div id="879134821">
+<script type="text/javascript">
+                try {
+                    window._mNHandle.queue.push(function () {
+                        window._mNDetails.loadTag("879134821", "728x90", "879134821");
+                    });
+                }
+                catch (error) {
+                }
+            </script>
+<iframe marginwidth="0" marginheight="0" scrolling="no" id="_mN_dy_879134821" width="728" height="90" frameborder="0"></iframe></div>
+</div>
+<div id="disqus_thread"><iframe id="dsq-app5877" name="dsq-app5877" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 1px !important; min-width: 100% !important; border: medium none !important; overflow: hidden !important; height: 1606px !important;" src="Autoloading%20Classes_Namespaces_files/a.htm" horizontalscrolling="no" verticalscrolling="no" width="100%" frameborder="0"></iframe><iframe id="indicator-north" name="indicator-north" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 835px !important; border: medium none !important; overflow: hidden !important; top: 0px !important; min-width: 835px !important; max-width: 835px !important; position: fixed !important; z-index: 2147483646 !important; height: 18px !important; min-height: 18px !important; max-height: 18px !important; display: none !important;" frameborder="0"></iframe><iframe id="indicator-south" name="indicator-south" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 835px !important; border: medium none !important; overflow: hidden !important; bottom: 0px !important; min-width: 835px !important; max-width: 835px !important; position: fixed !important; z-index: 2147483646 !important; height: 18px !important; min-height: 18px !important; max-height: 18px !important; display: none !important;" frameborder="0"></iframe></div>
+<script>
+        
+        var disqus_config = function () {
+        this.page.url = "https://developer.hyvor.com/php/autoload-classes-namespaces"
+        this.page.identifier = 2;
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://hyvor-developer.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+
+        /*
+        Load on scroll - But this seems like not good for SEO
+        var disqusLoaded = false,
+            disqusThread = hy(":disqus_thread")
+        var detacher = hy('window').event('scroll', function() {
+            if (disqusLoaded) 
+                return;
+            var top = disqusThread.offset().top,
+                windowHeight = win.offset().height
+
+            if (top <= windowHeight + 200) {
+                disqusLoaded = true;
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://hyvor-developer.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+
+                detacher();
+            }            
+        }, true);*/
+        
+        
+        </script>
+<div id="post-action" class="clearfix">
+<div class="author">
+<img src="Autoloading%20Classes_Namespaces_files/supun.png" alt="Author" class="auth-pic transition">
+<span class="auth-name">SupunKavinda</span>
+</div>
+
+</div>
+</div> 
+</div> 
+<div class="col-md-3">
+<div class="index-right-ad" id="right-wrap">
+<div class="subscribe-view" style="position: relative;">
+<div class="subscribe-text">Subscribe to our newsletter</div>
+<input type="email" name="email" id="subscribe-email" placeholder="Email" class="subscribe-input" onkeyup="subscribeCheckEnter(event)">
+<span class="subscribe-btn" id="subscribe-btn" onclick="subscribe();">Subscribe</span>
+<span id="subscribe-toast" class="subscribe-toast">Please enter your email</span>
+</div>
+<div class="ad-wrap" style="position: fixed; width: 325px; top: 0px;">
+<div id="707631739">
+<script type="text/javascript">
+                    try {
+                        window._mNHandle.queue.push(function () {
+                            window._mNDetails.loadTag("707631739", "300x250", "707631739");
+                        });
+                    }
+                    catch (error) {
+                    }
+                </script>
+<iframe marginwidth="0" marginheight="0" scrolling="no" id="_mN_dy_707631739" width="300" height="250" frameborder="0"></iframe></div>
+</div>
+<div class="right-posts" style="position: relative;">
+<div class="title">Recent Posts</div>
+<a class="right-post" href="https://developer.hyvor.com/php/image-upload-ajax-php-mysql?utm_campaign=internal&amp;utm_source=right_panel&amp;utm_medium=recent_posts" title="Image Upload with AJAX, PHP, and MYSQL - The Beginner's Guide">
+<div class="post-title">Image Upload with AJAX, PHP, and MYSQL - The Beginner's Guide</div>
+<div class="post-views">2018 views</div>
+</a>
+<a class="right-post" href="https://developer.hyvor.com/php/contact-form?utm_campaign=internal&amp;utm_source=right_panel&amp;utm_medium=recent_posts" title="PHP Contact Form - The Email Method">
+<div class="post-title">PHP Contact Form - The Email Method</div>
+<div class="post-views">688 views</div>
+</a>
+<a class="right-post" href="https://developer.hyvor.com/php/prepared-statements?utm_campaign=internal&amp;utm_source=right_panel&amp;utm_medium=recent_posts" title="The Best Way to Perform MYSQLI Prepared Statements in PHP">
+<div class="post-title">The Best Way to Perform MYSQLI Prepared Statements in PHP</div>
+<div class="post-views">1865 views</div>
+</a>
+<a class="right-post" href="https://developer.hyvor.com/php/live-search-with-ajax-php-mysql?utm_campaign=internal&amp;utm_source=right_panel&amp;utm_medium=recent_posts" title="Live Search with AJAX, PHP, and MYSQL">
+<div class="post-title">Live Search with AJAX, PHP, and MYSQL</div>
+<div class="post-views">9948 views</div>
+</a>
+<a class="right-post" href="https://developer.hyvor.com/php/validate-google-recaptcha-with-ajax-and-php?utm_campaign=internal&amp;utm_source=right_panel&amp;utm_medium=recent_posts" title="Google Recaptcha with AJAX and PHP">
+<div class="post-title">Google Recaptcha with AJAX and PHP</div>
+<div class="post-views">4230 views</div>
+</a>
+<a class="right-post" href="https://developer.hyvor.com/php/use-htaccess-auto-prepending-effectively?utm_campaign=internal&amp;utm_source=right_panel&amp;utm_medium=recent_posts" title="Use .htaccess Auto Prepending Effectively">
+<div class="post-title">Use .htaccess Auto Prepending Effectively</div>
+<div class="post-views">488 views</div>
+</a>
+</div>
+<a class="post" href="http://www.hostg.xyz/aff_c?offer_id=6&amp;aff_id=2047" rel="nofollow" title="Hostinger main page" target="_blank" style="border-right-color: rgb(0, 188, 212); margin: 20px 0px 0px; box-shadow: none; position: relative;">
+<div class="text-wrap" style="padding:0;">
+<div class="title">Fastest Web Hosting - Hostinger</div>
+<div class="desc">Choose your web hosting solution and make the perfect website!</div>
+<div class="category">
+<span class="cat-name" style="background-color:#00BCD4;color:#ffffff">Sponsered</span>
+</div>
+</div>
+</a>
+<div class="right-posts" style="position: relative;">
+<div class="title">Top Posts</div>
+<a class="right-post" href="https://developer.hyvor.com/php/live-search-with-ajax-php-mysql?utm_campaign=internal&amp;utm_source=right_panel&amp;utm_medium=top_posts" title="Live Search with AJAX, PHP, and MYSQL">
+<div class="post-title">Live Search with AJAX, PHP, and MYSQL</div>
+<div class="post-views">9948 views</div>
+</a>
+<a class="right-post" href="https://developer.hyvor.com/php/ajax-long-polling?utm_campaign=internal&amp;utm_source=right_panel&amp;utm_medium=top_posts" title="Ajax Long Polling with PHP">
+<div class="post-title">Ajax Long Polling with PHP</div>
+<div class="post-views">6588 views</div>
+</a>
+<a class="right-post" href="https://developer.hyvor.com/php/validate-google-recaptcha-with-ajax-and-php?utm_campaign=internal&amp;utm_source=right_panel&amp;utm_medium=top_posts" title="Google Recaptcha with AJAX and PHP">
+<div class="post-title">Google Recaptcha with AJAX and PHP</div>
+<div class="post-views">4230 views</div>
+</a>
+<a class="right-post" href="https://developer.hyvor.com/php/input-validation-with-php?utm_campaign=internal&amp;utm_source=right_panel&amp;utm_medium=top_posts" title="Input Validation with PHP">
+<div class="post-title">Input Validation with PHP</div>
+<div class="post-views">4097 views</div>
+</a>
+<a class="right-post" href="https://developer.hyvor.com/php/ajax-request-handler-with-php?utm_campaign=internal&amp;utm_source=right_panel&amp;utm_medium=top_posts" title="AJAX Request Handler With PHP">
+<div class="post-title">AJAX Request Handler With PHP</div>
+<div class="post-views">2504 views</div>
+</a>
+<a class="right-post" href="https://developer.hyvor.com/php/image-upload-ajax-php-mysql?utm_campaign=internal&amp;utm_source=right_panel&amp;utm_medium=top_posts" title="Image Upload with AJAX, PHP, and MYSQL - The Beginner's Guide">
+<div class="post-title">Image Upload with AJAX, PHP, and MYSQL - The Beginner's Guide</div>
+<div class="post-views">2018 views</div>
+</a>
+</div>
+</div>
+</div>
+<div class="row">
+</div>
+</div> 
+<script type="text/javascript">
+    
+var postId = 2;
+
+
+/*
+ UIConfig
+
+ UM = user message
+*/
+var UMdangerClass = "red"; 
+
+// donation
+hy('window').event("load", function() {
+    setTimeout(function() {
+        popup(
+            "<div class='popup-image-left' style='background-image:url(\"/images/city-flash.jpg\")'></div>" +
+            "<div class='popup-text-right'>" +
+                "<div class='popup-heading'>Donate us</div>" +
+                "<div class='popup-para'>Are you interested in this tutorial? Do you think that you can help us grow? <br><br>Then, we invite you to donate us on <a href='https://www.patreon.com/hyvordeveloper' class='link'>Patreon</a>. Your donations will help us to do more and you will get more too.<br><br>Thank you.</div>" +
+                "<div class='popup-buttons-wrap'><span id='popup-close' class='popup-button cancel'>Cancel</span><a href='https://www.patreon.com/hyvordeveloper' class='popup-button' target='_blank'>Donate us on Patreon</a></div>" +
+            "</div>"
+        )
+    },120000);
+});
+
+function addAffliateBannerToThirdPosition() {
+    var banner = hy(":aff-link");
+
+    var postsWrap = hy(":posts"),
+        posts = postsWrap.hy(".post");
+
+    // add to third postition
+    banner.insertBefore(postsWrap, posts[2]);
+    banner.show();
+
+}
+
+addAffliateBannerToThirdPosition();
+
+function subscribeCheckEnter(event) {
+    if (event.keyCode === 13) {
+        subscribe();
+    }
+} 
+
+function subscribe() {
+    var emailElement = hy(":subscribe-email")
+        email = trim(emailElement.value()),
+        toast = hy(":subscribe-toast")
+
+    closeToast();
+
+    if (email === "") {
+        openToast("Please enter your email");
+        return;
+    }
+
+    if (!validateEmail(email)) {
+        openToast("Invalid email");
+        return;
+    }
+
+    // now subscribe
+
+    ajax({
+        file: "/ajax/subscribe",
+        method: "POST",
+        data: {
+            email: email
+        },
+        success: function() {
+            var json = jsonParse(this.responseText);
+            if (!json || json.status !== true) 
+                return error(json.error);
+
+            emailElement.value("");
+            userMessage("Thank you for subscribing!");
+
+        },
+        error: error
+    });
+
+    function error(err) {
+        userMessage(err, UMdangerClass);
+    }
+
+
+    function openToast(text) {
+        toast.html(text).show();
+    }
+    function closeToast() {
+        toast.hide();
+    }
+
+}
+
+function validateEmail(email) {
+    return email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+}
+
+function openOrCloseMenu() {
+    var menu = hy(":left-menu");
+
+    if (menu.css("display") !== "block") {
+        menu.show();
+    } else {
+        menu.hide();
+    }
+}
+hy('window').on('resize', function() {
+    var menu = hy(":left-menu");
+
+    if (win.offset().width < 600) {
+        menu.hide();
+    } else {
+        menu.show();
+    }
+
+})
+
+</script>
+<script type="text/javascript" src="Autoloading%20Classes_Namespaces_files/blog.js" async=""></script>
+<script type="text/javascript" src="Autoloading%20Classes_Namespaces_files/highlight.js" async=""></script>
+<script type="text/javascript">
+
+    hy('window').event('load', function() {
+        hljs.initHighlighting();
+
+        clientSideLang.addTwoButtons();
+        clientSideLang.reloop();
+    })
+
+    
+
+</script>
+
+<div>
+          <link rel="stylesheet" href="Autoloading%20Classes_Namespaces_files/font-awesome.css" type="text/css"><link rel="stylesheet" href="Autoloading%20Classes_Namespaces_files/css.css" type="text/css">        </div><iframe style="display: none;"></iframe><iframe style="display: none; height: 0px; width: 0px;" src="Autoloading%20Classes_Namespaces_files/bfp_ssn.htm"></iframe></body></html>
